@@ -117,7 +117,7 @@ module.exports = function (grunt) {
                 failOnError: true
             },
             mkdir: {
-                command: 'mkdir -p <%= vars.buildDir %>/{img,views/Collector}'
+                command: 'mkdir -p <%= vars.buildDir %>/img <%= vars.buildDir %>/views/Collector'
             },
             clean: {
                 command: 'rm -rf build'
