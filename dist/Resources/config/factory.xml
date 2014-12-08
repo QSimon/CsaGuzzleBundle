@@ -7,6 +7,8 @@
     <parameters>
         <parameter key="csa_guzzle.client_factory.class">Csa\Bundle\GuzzleBundle\Factory\ClientFactory</parameter>
         <parameter key="csa_guzzle.client.class">Csa\Bundle\GuzzleBundle\Factory\Client</parameter>
+        <parameter key="csa_guzzle.client.cache_subscriber.class">Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\CacheSubscriber</parameter>
+        <parameter key="csa_guzzle.client.cache_storage.class">Csa\Bundle\GuzzleBundle\Cache\CacheStorage</parameter>
     </parameters>
 
     <services>

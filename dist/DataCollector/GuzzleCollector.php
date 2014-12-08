@@ -47,6 +47,14 @@ class GuzzleCollector extends DataCollector
             $request = $transaction['request'];
             $response = $transaction['response'];
 
+            $cache = array(
+                'enabled' => $request->getConfig()->hasKey('cache.disable') ? (bool) !$request->getConfig()->get('cache.disable') : false,
+                'ttl' => $request->getConfig()->hasKey('cache.ttl') ? (int) $request->getConfig()->get('cache.ttl') : null,
+                'key' => $request->getConfig()->hasKey('cache.key') ? $request->getConfig()->get('cache.key') : null,
+                'lookup' => $request->getConfig()->hasKey('cache_lookup') ? $request->getConfig()->get('cache_lookup') : null,
+                'hit' => $request->getConfig()->hasKey('cache_hit') ? $request->getConfig()->get('cache_hit') : null,
+            );
+
             $req = [
                 'request' => [
                     'method'  => $request->getMethod(),
@@ -56,7 +64,8 @@ class GuzzleCollector extends DataCollector
                     'headers' => $request->getHeaders(),
                     'body'    => (string) $request->getBody(),
                 ],
-                'duration' => $transaction['duration']
+                'duration' => $transaction['duration'],
+                'cache'   => $cache,
             ];
 
             if ($response) {

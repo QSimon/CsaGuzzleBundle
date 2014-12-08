@@ -13,6 +13,8 @@
             {{ statusCode }}{% if call.response is defined %} - {{ call.response.reasonPhrase }}{% endif %}
         </span>
         <span class="duration badge">{{ call.duration }} ms</span>
+        {% set cached = call.cache.enabled and call.cache.lookup == 'HIT' and call.cache.key is not empty %}
+        <span class="status-code badge {% if cached %}informational{% endif %}">{% if cached %}CACHED - TTL {{ call.cache.ttl }} ms{% else %}NOT CACHED{% endif %}</span>
     </header>
 
     <ul class="nav nav-pills">
@@ -24,6 +26,7 @@
         <div class="tab-pane active" id="request-{{ loop.index }}">
             {{ macros.render_headers(call.request.headers) }}
             {{ macros.render_query(call.request.query) }}
+            {{ macros.render_array(call.cache, 'cache', 'parameter') }}
             {{ macros.render_body(call.request.body) }}
         </div>
         {% if call.response is defined %}

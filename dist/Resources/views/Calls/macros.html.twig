@@ -1,6 +1,6 @@
 {% macro render_array(array, title, keyTitle) %}
     {% if array is not empty %}
-        <h4>{{ title|default('Parameters') }}</h4>
+        <h4>{{ title|default('Parameters')|capitalize }}</h4>
         <table>
             <tr>
                 <th scope="col" style="width: 25%">{{ keyTitle|capitalize }}</th>
@@ -24,12 +24,12 @@
 
 {% macro render_headers(headers) %}
     {% import _self as macros %}
-    {{ macros.render_array(headers, 'Headers', 'header') }}
+    {{ macros.render_array(headers, 'headers', 'header') }}
 {% endmacro %}
 
 {% macro render_query(params) %}
     {% import _self as macros %}
-    {{ macros.render_array(params, 'Query', 'parameter') }}
+    {{ macros.render_array(params, 'query', 'parameter') }}
 {% endmacro %}
 
 {% macro render_body(body) %}
