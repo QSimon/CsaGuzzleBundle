@@ -35,14 +35,14 @@ class GuzzleExtension extends \Twig_Extension
 
     public function detectLang($body)
     {
-        switch (true) {
-            case 0 === strpos($body, '<?xml'):
-                return 'xml';
-            case 0 === strpos($body, '{'):
-                return 'json';
-            default:
-                return 'markup';
+        $lang = 'markup';
+        if (0 === strpos($body, '<?xml')) {
+            $lang = 'xml';
+        } elseif (preg_match('/^{.*}$|^\[.*\]$/', $body)) {
+            $lang = 'json';
         }
+
+        return $lang;
     }
 
     public function prettyPrint($code, $lang)
@@ -64,19 +64,18 @@ class GuzzleExtension extends \Twig_Extension
 
     public function statusCodeClass($statusCode)
     {
-        switch (true) {
-            case $statusCode >= 500:
-                return 'server-error';
-            case $statusCode >= 400:
-                return 'client-error';
-            case $statusCode >= 300:
-                return 'redirection';
-            case $statusCode >= 200:
-                return 'success';
-            case $statusCode >= 100:
-                return 'informational';
-            default:
-                return 'unknown';
+        if ($statusCode >= 500) {
+            return 'server-error';
+        } elseif ($statusCode >= 400) {
+            return 'client-error';
+        } elseif ($statusCode >= 300) {
+            return 'redirection';
+        } elseif ($statusCode >= 200) {
+            return 'success';
+        } elseif ($statusCode >= 100) {
+            return 'informational';
+        } else {
+            return 'unknown';
         }
     }
 

@@ -52,6 +52,7 @@ class GuzzleCollector extends DataCollector
                     'method'  => $request->getMethod(),
                     'version' => $request->getProtocolVersion(),
                     'url'     => (string) $request->getUrl(),
+                    'query'   => $request->getQuery() ? $request->getQuery()->toArray() : array(),
                     'headers' => $request->getHeaders(),
                     'body'    => (string) $request->getBody(),
                 ],

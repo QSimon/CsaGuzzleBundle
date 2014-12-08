@@ -1,27 +1,35 @@
-{% macro render_headers(headers) %}
-    <h4>Headers</h4>
-    <table>
-        <tr>
-            <th>Header</th>
-            <th>Value</th>
-        </tr>
-        {% for header, values in headers %}
+{% macro render_array(array, title, keyTitle) %}
+    {% if array is not empty %}
+        <h4>{{ title|default('Parameters') }}</h4>
+        <table>
             <tr>
-                <td>{{ header }}</td>
-                <td>
-                    {% if values|length > 1 %}
-                    <ul>
-                        {% for value in values %}
-                            <li>{{ value }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                        {{ values.0 }}
-                    {% endif %}
-                </td>
+                <th scope="col" style="width: 25%">{{ keyTitle|capitalize }}</th>
+                <th scope="col" style="width: 75%">Value</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for key, values in array %}
+                <tr>
+                    <th>{{ key }}</th>
+                    <td>
+                        {% if values is iterable and values|length == 1 %}
+                            {{ values.0 }}
+                        {% else %}
+                            <pre>{{ profiler_dump(values) }}</pre>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_headers(headers) %}
+    {% import _self as macros %}
+    {{ macros.render_array(headers, 'Headers', 'header') }}
+{% endmacro %}
+
+{% macro render_query(params) %}
+    {% import _self as macros %}
+    {{ macros.render_array(params, 'Query', 'parameter') }}
 {% endmacro %}
 
 {% macro render_body(body) %}

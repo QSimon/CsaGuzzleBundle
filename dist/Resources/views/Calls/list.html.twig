@@ -1,5 +1,11 @@
-<ul class="container-fluid calls">
-    {% for call in calls %}
-        {% include '@CsaGuzzle/Calls/call.html.twig' with { call: call, loop: loop } only %}
-    {% endfor %}
-</ul>
+{% if calls|length > 0 %}
+    <ul class="calls">
+        {% for call in calls %}
+            {% include '@CsaGuzzle/Calls/call.html.twig' with { call: call, loop: loop } only %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>
+        <em>No HTTP requests sent.</em>
+    </p>
+{% endif %}

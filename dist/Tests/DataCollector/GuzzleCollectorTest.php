@@ -29,7 +29,7 @@ class GuzzleCollectorTest extends \PHPUnit_Framework_TestCase
         $request  = $this
             ->getMockBuilder('GuzzleHttp\Message\Request')
             ->disableOriginalConstructor()
-            ->setMethods(['getMethod', 'getProtocolVersion', 'getUrl', 'getHeaders', 'getBody'])
+            ->setMethods(['getMethod', 'getProtocolVersion', 'getUrl', 'getHeaders', 'getBody', 'getQuery'])
             ->getMock()
         ;
 
