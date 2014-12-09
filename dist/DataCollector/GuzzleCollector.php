@@ -12,6 +12,7 @@
 namespace Csa\Bundle\GuzzleBundle\DataCollector;
 
 use Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber;
+use GuzzleHttp\Message\Request as GuzzleRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -47,13 +48,7 @@ class GuzzleCollector extends DataCollector
             $request = $transaction['request'];
             $response = $transaction['response'];
 
-            $cache = array(
-                'enabled' => $request->getConfig()->hasKey('cache.disable') ? (bool) !$request->getConfig()->get('cache.disable') : false,
-                'ttl' => $request->getConfig()->hasKey('cache.ttl') ? (int) $request->getConfig()->get('cache.ttl') : null,
-                'key' => $request->getConfig()->hasKey('cache.key') ? $request->getConfig()->get('cache.key') : null,
-                'lookup' => $request->getConfig()->hasKey('cache_lookup') ? $request->getConfig()->get('cache_lookup') : null,
-                'hit' => $request->getConfig()->hasKey('cache_hit') ? $request->getConfig()->get('cache_hit') : null,
-            );
+            $cache = $this->getCacheinfo($request);
 
             $req = [
                 'request' => [
@@ -82,6 +77,27 @@ class GuzzleCollector extends DataCollector
         }
 
         $this->data = $data;
+    }
+
+    protected function getCacheinfo(GuzzleRequest $request)
+    {
+        $lookup = $request->getConfig()->hasKey('cache_lookup') ? $request->getConfig()->get('cache_lookup') : null;
+        $hit = $request->getConfig()->hasKey('cache_hit') ? $request->getConfig()->get('cache_hit') : null;
+        $key = $request->getConfig()->hasKey('cache.key') ? $request->getConfig()->get('cache.key') : null;
+
+        $cacheStatus = 'not cached';
+        if ($hit === true) {
+            $cacheStatus = 'cached';
+        } elseif (!empty($key) && $lookup == 'MISS') {
+            $cacheStatus = 'cache saved';
+        }
+
+        return array(
+            'enabled' => $request->getConfig()->hasKey('cache.disable') ? (bool) !$request->getConfig()->get('cache.disable') : false,
+            'ttl' => $request->getConfig()->hasKey('cache.ttl') ? (int) $request->getConfig()->get('cache.ttl') : null,
+            'key' => $key,
+            'status' => $cacheStatus,
+        );
     }
 
     public function getCalls()

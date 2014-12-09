@@ -13,8 +13,8 @@
             {{ statusCode }}{% if call.response is defined %} - {{ call.response.reasonPhrase }}{% endif %}
         </span>
         <span class="duration badge">{{ call.duration }} ms</span>
-        {% set cached = call.cache.enabled and call.cache.lookup == 'HIT' and call.cache.key is not empty %}
-        <span class="status-code badge {% if cached %}informational{% endif %}">{% if cached %}CACHED - TTL {{ call.cache.ttl }} ms{% else %}NOT CACHED{% endif %}</span>
+        {% set cacheStatus = call.cache.status is defined ? call.cache.status : 'not cached' %}
+        <span class="status-code badge {{ cacheStatus|cache_status_class }}">{{ cacheStatus|upper }}{% if call.cache.ttl is defined and cacheStatus != 'not cached' %} - TTL {{ call.cache.ttl }} ms{% endif %}</span>
     </header>
 
     <ul class="nav nav-pills">

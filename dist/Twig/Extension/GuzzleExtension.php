@@ -23,6 +23,7 @@ class GuzzleExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFilter('pretty_print', [$this, 'prettyPrint']),
             new \Twig_SimpleFilter('status_code_class', [$this, 'statusCodeClass']),
+            new \Twig_SimpleFilter('cache_status_class', [$this, 'cacheStatusClass']),
         ];
     }
 
@@ -76,6 +77,18 @@ class GuzzleExtension extends \Twig_Extension
             return 'informational';
         } else {
             return 'unknown';
+        }
+    }
+
+    public function cacheStatusClass($cacheStatus)
+    {
+        switch ($cacheStatus) {
+            case 'cached':
+                return 'informational';
+            case 'cache saved':
+                return 'client-error';
+            default:
+                return '';
         }
     }
 

@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('prefix')
                             ->info('Cache key prefix')
-                            ->defaultValue('http_call_')
+                            ->defaultNull()
                         ->end()
                         ->booleanNode('enable')
                             ->defaultTrue()
