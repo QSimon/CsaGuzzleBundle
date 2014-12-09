@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="csa_guzzle.data_collector.guzzle.class">Csa\Bundle\GuzzleBundle\DataCollector\GuzzleCollector</parameter>
         <parameter key="csa_guzzle.subscriber.debug.class">Csa\Bundle\GuzzleBundle\GuzzleHttp\Subscriber\DebugSubscriber</parameter>
-        <parameter key="csa_guzzle.subscriber.log.class">GuzzleHttp\Subscriber\Log\LogSubscriber</parameter>
     </parameters>
 
     <services>
@@ -21,13 +20,6 @@
             <argument type="service" id="debug.stopwatch" />
             <tag name="csa_guzzle.subscriber" />
         </service>
-
-        <service id="csa_guzzle.subscriber.log" class="%csa_guzzle.subscriber.log.class%">
-            <argument type="service" id="logger" />
-            <tag name="monolog.logger" channel="http_call" />
-            <tag name="csa_guzzle.subscriber" />
-        </service>
-
     </services>
 
 </container>
