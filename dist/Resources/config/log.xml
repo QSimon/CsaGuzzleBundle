@@ -11,7 +11,7 @@
     <services>
         <service id="csa_guzzle.subscriber.log" class="%csa_guzzle.subscriber.log.class%">
             <argument type="service" id="logger" />
-            <!--<argument>%%</argument>-->
+            <argument>%csa_guzzle.subscriber.log.format%</argument>
             <tag name="monolog.logger" channel="http_call" />
             <tag name="csa_guzzle.subscriber" />
         </service>
