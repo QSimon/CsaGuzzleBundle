@@ -48,6 +48,7 @@ class SubscriberPass implements CompilerPassInterface
                 $container->getParameter('csa_guzzle.subscriber.cache.prefix'),
             )));
 
+
             $cacheSubscriber = new Definition('%csa_guzzle.subscriber.cache.class%', array(
                 new Reference('csa_guzzle.cache_storage'),
                 $container->getParameter('csa_guzzle.subscriber.cache.enable'),
@@ -57,7 +58,6 @@ class SubscriberPass implements CompilerPassInterface
 
             $container->setDefinition('csa_guzzle.subscriber.cache', $cacheSubscriber);
         }
-
 
         // get all Guzzle subscribers
         $subscribers = $container->findTaggedServiceIds('csa_guzzle.subscriber');

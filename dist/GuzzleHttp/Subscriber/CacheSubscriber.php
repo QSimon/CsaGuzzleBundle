@@ -50,7 +50,7 @@ class CacheSubscriber implements SubscriberInterface
         $request = $event->getRequest();
 
         if (!$this->enabled) {
-            $request->getConfig()->set('cache.disable', false);
+            $request->getConfig()->set('cache.disable', true);
         }
 
         if (!$this->canCacheRequest($request)) {
